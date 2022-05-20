@@ -1,5 +1,8 @@
+import os
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
-from checkers.constants import WIDTH, HEIGHT, SQUARE_SIZE, RED
+from checkers.IA import alphabeta, minimax
+from checkers.constants import WIDTH, HEIGHT, SQUARE_SIZE,WHITE,BLACK
 from checkers.game import Game
 
 
@@ -21,6 +24,12 @@ def main():
 
     while run:
         clock.tick(FPS)
+
+        if game.turn == BLACK:
+            INFINI_MINUS = float('-inf')
+            INIFNI = float('inf')
+            value,new_board = alphabeta(game.get_board(),1,BLACK,game,alpha=INFINI_MINUS,beta=INIFNI)
+            game.ai_move(new_board)
 
         if game.winner() != None:
             print(game.winner())
